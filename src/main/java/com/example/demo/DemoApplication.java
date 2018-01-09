@@ -15,7 +15,7 @@ public class DemoApplication {
 
 	@RequestMapping("/")
 	String index(){
-		return "hollow spring boot"+authorSetting.getName()+authorSetting.getSex()+authorSetting.getAge();
+		return "hollow spring boot2"+authorSetting.getName()+authorSetting.getSex()+authorSetting.getAge();
 	}
 
 	public static void main(String[] args) {
