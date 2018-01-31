@@ -57,7 +57,7 @@ public class DemoApplicationTests {
                 }
             }
         }
-        //选择排序，从坐标值开始，筛选出区间最小值下标，并与坐标值交换位置
+        //选择排序，从坐标值开始，筛选出区间最小值下标，并与坐标值交换位置1
         /*int index;
         int temp;
         for (int i1 = 0; i1 < i.length; i1++) {
