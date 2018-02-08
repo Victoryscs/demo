@@ -40,7 +40,7 @@ public class DemoApplicationTests {
 //		long l1 = System.nanoTime();
 //		System.out.println(l1-l);
 //		System.out.println(Long.valueOf("43323141"));
-        int[] i = {11, 2, 45, 43, 22, 55, 12};
+        int[] i = {11, 2, 45, 431, 22, 55, 12};
         testSort(i);
 
     }
@@ -89,10 +89,10 @@ public class DemoApplicationTests {
         //二元选择排序
         int i1, j1, n1, temp, min, max;
         n1 = i.length;
-        for ( i1 = 0; i1 < n1 ; i1++) {
+        for (i1 = 0; i1 < n1 / 2; i1++) {
             max = i1;
             min = i1;
-            for ( j1 = i1 + 1; j1 < n1 - i1-1; j1++) {
+            for (j1 = i1 + 1; j1 < n1 - i1 - 1; j1++) {
                 if (i[j1] > i[max]) {
                     max = j1;
                     continue;
@@ -104,12 +104,12 @@ public class DemoApplicationTests {
             temp = i[i1];
             i[i1] = i[min];
             i[min] = temp;
-            if (max==i1){
+            if (max == i1) {
+                // 当最大值为il时，由于min与il已交换位置，所以此时的最大值应为交换后的i[min]
                 temp = i[n1 - i1 - 1];
                 i[n1 - i1 - 1] = i[min];
                 i[min] = temp;
-
-            }else {
+            } else {
                 temp = i[n1 - i1 - 1];
                 i[n1 - i1 - 1] = i[max];
                 i[max] = temp;
