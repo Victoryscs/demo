@@ -45,18 +45,19 @@ public class DemoApplicationTests {
 
     }
 
+
     public static void testSort(int[] i) {
         //冒泡排序，将每段数值区间的最大值向后移动
-        int temp;
-        for (int i1 = 0; i1 < i.length; i1++) {
-            for (int j=1;j<i.length-i1;j++){
-                if(i[j]<i[j-1]){
-                 temp=i[j];
-                 i[j]=i[j-1];
-                 i[j-1]=temp;
-                }
-            }
-        }
+//        int temp;
+//        for (int i1 = 0; i1 < i.length; i1++) {
+//            for (int j=1;j<i.length-i1;j++){
+//                if(i[j]<i[j-1]){
+//                 temp=i[j];
+//                 i[j]=i[j-1];
+//                 i[j-1]=temp;
+//                }
+//            }
+//        }
         //选择排序，从坐标值开始，筛选出区间最小值下标，并与坐标值交换位置1
         /*int index;
         int temp;
@@ -85,8 +86,30 @@ public class DemoApplicationTests {
             }
             i[j + 1] = num;
         }*/
-        for (int i1 : i) {
-            System.out.println(i1);
+        //二元选择排序
+        int i1, j1, n1, temp, min, max;
+        n1 = i.length;
+        for ( i1 = 1; i1 < n1 ; i1++) {
+            max = i1;
+            min = i1;
+            for ( j1 = i1 + 1; j1 < n1 - i1; j1++) {
+                if (i[j1] > i[max]) {
+                    max = j1;
+                    continue;
+                }
+                if (i[j1] < i[min]) {
+                    min = j1;
+                }
+            }
+            temp = i[i1 - 1];
+            i[i1 - 1] = i[min];
+            i[min] = temp;
+            temp = i[n1 - i1];
+            i[n1 - i1] = i[max];
+            i[max] = temp;
+        }
+        for (int i2 : i) {
+            System.out.println(i2);
         }
     }
 
