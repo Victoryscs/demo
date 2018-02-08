@@ -89,10 +89,10 @@ public class DemoApplicationTests {
         //二元选择排序
         int i1, j1, n1, temp, min, max;
         n1 = i.length;
-        for ( i1 = 1; i1 < n1 ; i1++) {
+        for ( i1 = 0; i1 < n1 ; i1++) {
             max = i1;
             min = i1;
-            for ( j1 = i1 + 1; j1 < n1 - i1; j1++) {
+            for ( j1 = i1 + 1; j1 < n1 - i1-1; j1++) {
                 if (i[j1] > i[max]) {
                     max = j1;
                     continue;
@@ -101,12 +101,19 @@ public class DemoApplicationTests {
                     min = j1;
                 }
             }
-            temp = i[i1 - 1];
-            i[i1 - 1] = i[min];
+            temp = i[i1];
+            i[i1] = i[min];
             i[min] = temp;
-            temp = i[n1 - i1];
-            i[n1 - i1] = i[max];
-            i[max] = temp;
+            if (max==i1){
+                temp = i[n1 - i1 - 1];
+                i[n1 - i1 - 1] = i[min];
+                i[min] = temp;
+
+            }else {
+                temp = i[n1 - i1 - 1];
+                i[n1 - i1 - 1] = i[max];
+                i[max] = temp;
+            }
         }
         for (int i2 : i) {
             System.out.println(i2);
