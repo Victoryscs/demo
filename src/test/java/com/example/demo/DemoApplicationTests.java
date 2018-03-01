@@ -40,7 +40,7 @@ public class DemoApplicationTests {
 //		long l1 = System.nanoTime();
 //		System.out.println(l1-l);
 //		System.out.println(Long.valueOf("43323141"));
-        int[] i = {11, 2, 45, 431, 22, 55, 12};
+        int[] i = {11, 21, 45, 431, 22, 55, 12};
         testSort(i);
 
     }
@@ -87,38 +87,84 @@ public class DemoApplicationTests {
             i[j + 1] = num;
         }*/
         //二元选择排序
-        int i1, j1, n1, temp, min, max;
-        n1 = i.length;
-        for (i1 = 0; i1 < n1 / 2; i1++) {
-            max = i1;
-            min = i1;
-            for (j1 = i1 + 1; j1 < n1 - i1 - 1; j1++) {
-                if (i[j1] > i[max]) {
-                    max = j1;
-                    continue;
-                }
-                if (i[j1] < i[min]) {
-                    min = j1;
-                }
-            }
-            temp = i[i1];
-            i[i1] = i[min];
-            i[min] = temp;
-            if (max == i1) {
-                // 当最大值为il时，由于min与il已交换位置，所以此时的最大值应为交换后的i[min]
-                temp = i[n1 - i1 - 1];
-                i[n1 - i1 - 1] = i[min];
-                i[min] = temp;
-            } else {
-                temp = i[n1 - i1 - 1];
-                i[n1 - i1 - 1] = i[max];
-                i[max] = temp;
-            }
+//        int i1, j1, n1, temp, min, max;
+//        n1 = i.length;
+//        for (i1 = 0; i1 < n1 / 2; i1++) {
+//            max = i1;
+//            min = i1;
+//            for (j1 = i1 + 1; j1 < n1 - i1 - 1; j1++) {
+//                if (i[j1] > i[max]) {
+//                    max = j1;
+//                    continue;
+//                }
+//                if (i[j1] < i[min]) {
+//                    min = j1;
+//                }
+//            }
+//            temp = i[i1];
+//            i[i1] = i[min];
+//            i[min] = temp;
+//            if (max == i1) {
+//                // 当最大值为il时，由于min与il已交换位置，所以此时的最大值应为交换后的i[min]
+//                temp = i[n1 - i1 - 1];
+//                i[n1 - i1 - 1] = i[min];
+//                i[min] = temp;
+//            } else {
+//                temp = i[n1 - i1 - 1];
+//                i[n1 - i1 - 1] = i[max];
+//                i[max] = temp;
+//            }
+//        }
+        // 堆排序(在插值排序的基础上进一步优化)
+        int len = i.length;
+        //循环建堆
+        for (int i1 = 0; i1 < len - 1; i1++) {
+            //建堆
+            buildMaxHeap(i, len - 1 - i1);
+            //交换堆顶和最后一个元素
+            swap(i, 0, len - 1 - i1);
         }
         for (int i2 : i) {
             System.out.println(i2);
         }
     }
 
+    //对data数组从0到lastIndex建大顶堆
+    private static void buildMaxHeap(int[] data, int lastIndex) {
+        //从lastIndex处节点（最后一个节点）的父节点开始
+        for (int i = (lastIndex - 1) / 2; i >= 0; i--) {
+            //k保存正在判断的节点
+            int k = i;
+            //如果当前k节点的子节点存在
+            while (k * 2 + 1 <= lastIndex) {
+                //k节点的左子节点的索引
+                int biggerIndex = 2 * k + 1;
+                //如果biggerIndex小于lastIndex，即biggerIndex+1代表的k节点的右子节点存在
+                if (biggerIndex < lastIndex) {
+                    //若果右子节点的值较大
+                    if (data[biggerIndex] < data[biggerIndex + 1]) {
+                        //biggerIndex总是记录较大子节点的索引
+                        biggerIndex++;
+                    }
+                }
+                //如果k节点的值小于其较大的子节点的值
+                if (data[k] < data[biggerIndex]) {
+                    //交换他们
+                    swap(data, k, biggerIndex);
+                    //将biggerIndex赋予k，开始while循环的下一次循环，重新保证k节点的值大于其左右子节点的值
+                    k = biggerIndex;
+                } else {
+                    break;
+                }
+            }
 
+        }
+    }
+
+    //交换方法
+    private static void swap(int[] data, int i, int j) {
+        int tmp = data[i];
+        data[i] = data[j];
+        data[j] = tmp;
+    }
 }
