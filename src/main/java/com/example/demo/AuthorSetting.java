@@ -8,8 +8,8 @@ import org.springframework.stereotype.Component;
  * Created by Administrator on 2017/9/28.
  */
 @Component
-//@PropertySource("author.properties")
-//@ConfigurationProperties(prefix="author")
+@PropertySource("author.properties")
+@ConfigurationProperties(prefix="author")
 public class AuthorSetting {
     private  String name;
     private String age;
