@@ -86,13 +86,15 @@ public class DemoApplicationTests {
             }
             i[j + 1] = num;
         }*/
+
+
         //二元选择排序
 //        int i1, j1, n1, temp, min, max;
 //        n1 = i.length;
 //        for (i1 = 0; i1 < n1 / 2; i1++) {
 //            max = i1;
 //            min = i1;
-//            for (j1 = i1 + 1; j1 < n1 - i1 - 1; j1++) {
+//            for (j1 = i1; j1 < n1 - i1; j1++) {
 //                if (i[j1] > i[max]) {
 //                    max = j1;
 //                    continue;
@@ -115,17 +117,18 @@ public class DemoApplicationTests {
 //                i[max] = temp;
 //            }
 //        }
+
         // 堆排序(在插值排序的基础上进一步优化)
-        int len = i.length;
-        //循环建堆
-        for (int i1 = 0; i1 < len - 1; i1++) {
-            //建堆
-            buildMaxHeap(i, len - 1 - i1);
-            //交换堆顶和最后一个元素
-            swap(i, 0, len - 1 - i1);
-        }
-        for (int i2 : i) {
-            System.out.println(i2);
+//        int len = i.length;
+//        //循环建堆
+//        for (int i1 = 0; i1 < len - 1; i1++) {
+//            //建堆
+//            buildMaxHeap(i, len - 1 - i1);
+//            //交换堆顶和最后一个元素
+//            swap(i, 0, len - 1 - i1);
+//        }
+        for (int i3 : i) {
+            System.out.println(i3);
         }
     }
 
