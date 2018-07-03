@@ -3,6 +3,7 @@ package com.example.demo;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.core.convert.converter.Converter;
 import org.springframework.test.context.junit4.SpringRunner;
 
 import java.util.*;
@@ -16,7 +17,7 @@ public class DemoApplicationTests {
     class a {
         String A = "adas";
     }
-
+public static final  AuthorSetting authorSetting=null ;
     public static void main(String[] args) {
 //		long l = System.nanoTime();
 //		SortedMap<String, String> treeMap = new TreeMap<>();
@@ -26,7 +27,7 @@ public class DemoApplicationTests {
 //		treeMap.put("b","2");
 //		List<Map.Entry<String, String>> arrayList = new ArrayList<>(treeMap.entrySet());
 //		Collections.sort(arrayList, (o1, o2) ->Integer.valueOf(o2.getValue()).compareTo(Integer.valueOf(o1.getValue())));
-//		arrayList.parallelStream().sorted(((o1, o2) -> Integer.valueOf(o2.getValue()).compareTo(Integer.valueOf(o1.getValue()))));
+//		arrayList.parallelStream().sorted(((o1, o2) -> Integer.valueOf(o2.getValue()).compawreTo(Integer.valueOf(o1.getValue()))));
 //		arrayList.stream().sorted((Comparator.comparing(Map.Entry::getValue)));
 //		final Boolean[] flag = {true};
 //		for(Map.Entry e :arrayList){
@@ -42,7 +43,6 @@ public class DemoApplicationTests {
 //		System.out.println(Long.valueOf("43323141"));
         int[] i = {11, 21, 45, 431, 22, 55, 12};
         testSort(i);
-
     }
 
 
@@ -87,8 +87,7 @@ public class DemoApplicationTests {
             i[j + 1] = num;
         }*/
 
-
-        //二元选择排序
+            //二元选择排序
 //        int i1, j1, n1, temp, min, max;
 //        n1 = i.length;
 //        for (i1 = 0; i1 < n1 / 2; i1++) {
@@ -117,8 +116,7 @@ public class DemoApplicationTests {
 //                i[max] = temp;
 //            }
 //        }
-
-        // 堆排序(在插值排序的基础上进一步优化)
+            // 堆排序(在插值排序的基础上进一步优化)
 //        int len = i.length;
 //        //循环建堆
 //        for (int i1 = 0; i1 < len - 1; i1++) {
@@ -127,12 +125,29 @@ public class DemoApplicationTests {
 //            //交换堆顶和最后一个元素
 //            swap(i, 0, len - 1 - i1);
 //        }
-        for (int i3 : i) {
-            System.out.println(i3);
+            for (int i3 : i) {
+                System.out.println(i3);
+            }
+            //折半查询
+//        int mid,low=0,heigh=i.length,index=0;
+//        while (low<=heigh){
+//            mid=(low+heigh)/2;
+//            if (i[mid]==45){
+//                index=mid;
+//                break;
+//            }else if (i[mid]>22){
+//                heigh=mid-1;
+//            }else {
+//                low=mid+1;
+//            }
+//        }
+//        System.out.println(".."+index);
+//        Integer i2=0;
+//            int i3=i2;
         }
-    }
 
-    //对data数组从0到lastIndex建大顶堆
+        //对data数组从0到lastIndex建大顶堆
+
     private static void buildMaxHeap(int[] data, int lastIndex) {
         //从lastIndex处节点（最后一个节点）的父节点开始
         for (int i = (lastIndex - 1) / 2; i >= 0; i--) {
