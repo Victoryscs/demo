@@ -34,8 +34,8 @@ public class AlibabaCodeStyleTests {
 //                iterator.remove();
 //            }
 //        }
-//        for (String s : list) {
-//            System.out.println(s);
+//        for (String dao : list) {
+//            System.out.println(dao);
 //        }
         HashMap<Object, Object> map = new HashMap<>();
         map.put("1",1);
