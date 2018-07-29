@@ -1,12 +1,8 @@
 package com.example.demo;
 
-import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.core.convert.converter.Converter;
 import org.springframework.test.context.junit4.SpringRunner;
-
-import java.util.*;
 
 @RunWith(SpringRunner.class)
 @SpringBootTest
