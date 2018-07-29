@@ -1,0 +1,295 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.ryfchina.demo.repository.dao.AlarmTemplateDao">
+
+    <!-- 可根据自己的需求，是否要使用 -->
+    <resultMap type="com.ryfchina.demo.repository.model.AlarmTemplate" id="alarmTemplateMap">
+        <result property="pkid" column="pkid"/>
+        <result property="templateName" column="template_name"/>
+        <result property="validFlag" column="valid_flag"/>
+        <result property="alarmType" column="alarm_type"/>
+        <result property="smsContent" column="sms_content"/>
+        <result property="emailSubject" column="email_subject"/>
+        <result property="emailContent" column="email_content"/>
+        <result property="extend1" column="extend1"/>
+        <result property="extend2" column="extend2"/>
+        <result property="extend3" column="extend3"/>
+        <result property="extend4" column="extend4"/>
+        <result property="extend5" column="extend5"/>
+
+    </resultMap>
+
+    <sql id="allColumns">
+        pkid, template_name, valid_flag, alarm_type, sms_content, email_subject, email_content, extend1, extend2, extend3, extend4, extend5                </sql>
+
+    <select id="view" resultType="com.ryfchina.demo.repository.model.AlarmTemplate">
+        SELECT *
+        FROM t_alarm_template
+        WHERE pkid = #{value}
+    </select>
+
+    <select id="list" resultType="com.ryfchina.demo.repository.model.AlarmTemplate">
+        select
+        <include refid="allColumns"/>
+        from t_alarm_template
+        <where>
+            <if test="pkid != null and pkid.trim() != ''">
+                and `pkid` like concat('%',#{pkid},'%')
+            </if>
+            <if test="templateName != null and templateName.trim() != ''">
+                and `template_name` like concat('%',#{templateName},'%')
+            </if>
+            <if test="validFlag != null and validFlag.trim() != ''">
+                and `valid_flag` like concat('%',#{validFlag},'%')
+            </if>
+            <if test="alarmType != null and alarmType.trim() != ''">
+                and `alarm_type` like concat('%',#{alarmType},'%')
+            </if>
+            <if test="smsContent != null and smsContent.trim() != ''">
+                and `sms_content` like concat('%',#{smsContent},'%')
+            </if>
+            <if test="emailSubject != null and emailSubject.trim() != ''">
+                and `email_subject` like concat('%',#{emailSubject},'%')
+            </if>
+            <if test="emailContent != null and emailContent.trim() != ''">
+                and `email_content` like concat('%',#{emailContent},'%')
+            </if>
+            <if test="extend1 != null and extend1.trim() != ''">
+                and `extend1` like concat('%',#{extend1},'%')
+            </if>
+            <if test="extend2 != null and extend2.trim() != ''">
+                and `extend2` like concat('%',#{extend2},'%')
+            </if>
+            <if test="extend3 != null and extend3.trim() != ''">
+                and `extend3` like concat('%',#{extend3},'%')
+            </if>
+            <if test="extend4 != null and extend4.trim() != ''">
+                and `extend4` like concat('%',#{extend4},'%')
+            </if>
+            <if test="extend5 != null and extend5.trim() != ''">
+                and `extend5` like concat('%',#{extend5},'%')
+            </if>
+        </where>
+        <choose>
+            <when test="sidx != null and sidx.trim() != ''">
+                order by ${sidx} ${order}
+            </when>
+            <otherwise>
+                order by pkid desc
+            </otherwise>
+        </choose>
+        <if test="offset != null and limit != null">
+            limit #{offset}, #{limit}
+        </if>
+    </select>
+
+    <select id="count" resultType="int">
+        SELECT count(1)
+        FROM t_alarm_template
+        <where>
+            <if test="pkid != null and pkid.trim() != ''">
+                and `pkid` like concat('%',#{pkid},'%')
+            </if>
+            <if test="templateName != null and templateName.trim() != ''">
+                and `template_name` like concat('%',#{templateName},'%')
+            </if>
+            <if test="validFlag != null and validFlag.trim() != ''">
+                and `valid_flag` like concat('%',#{validFlag},'%')
+            </if>
+            <if test="alarmType != null and alarmType.trim() != ''">
+                and `alarm_type` like concat('%',#{alarmType},'%')
+            </if>
+            <if test="smsContent != null and smsContent.trim() != ''">
+                and `sms_content` like concat('%',#{smsContent},'%')
+            </if>
+            <if test="emailSubject != null and emailSubject.trim() != ''">
+                and `email_subject` like concat('%',#{emailSubject},'%')
+            </if>
+            <if test="emailContent != null and emailContent.trim() != ''">
+                and `email_content` like concat('%',#{emailContent},'%')
+            </if>
+            <if test="extend1 != null and extend1.trim() != ''">
+                and `extend1` like concat('%',#{extend1},'%')
+            </if>
+            <if test="extend2 != null and extend2.trim() != ''">
+                and `extend2` like concat('%',#{extend2},'%')
+            </if>
+            <if test="extend3 != null and extend3.trim() != ''">
+                and `extend3` like concat('%',#{extend3},'%')
+            </if>
+            <if test="extend4 != null and extend4.trim() != ''">
+                and `extend4` like concat('%',#{extend4},'%')
+            </if>
+            <if test="extend5 != null and extend5.trim() != ''">
+                and `extend5` like concat('%',#{extend5},'%')
+            </if>
+        </where>
+    </select>
+
+    <insert id="save" parameterType="com.ryfchina.demo.repository.model.AlarmTemplate">
+        INSERT INTO t_alarm_template
+        (
+            pkid,
+            template_name,
+            valid_flag,
+            alarm_type,
+            sms_content,
+            email_subject,
+            email_content,
+            extend1,
+            extend2,
+            extend3,
+            extend4,
+            extend5
+        )
+        VALUES
+            (
+                #{pkid},
+                #{templateName},
+                #{validFlag},
+                #{alarmType},
+                <![CDATA[ #{smsContent} ]]>,
+                <![CDATA[ #{emailSubject} ]]>,
+                <![CDATA[ #{emailContent} ]]>,
+                #{extend1},
+                #{extend2},
+                #{extend3},
+                #{extend4},
+                #{extend5}
+            )
+    </insert>
+
+    <update id="update" parameterType="com.ryfchina.demo.repository.model.AlarmTemplate">
+        update t_alarm_template
+        <set>
+            <if test="templateName != null">`template_name` =
+                #{templateName},
+            </if>
+            <if test="validFlag != null">`valid_flag` =
+                #{validFlag},
+            </if>
+            <if test="alarmType != null">`alarm_type` =
+                #{alarmType},
+            </if>
+            <if test="smsContent != null">`sms_content` =
+                #{smsContent},
+            </if>
+            <if test="emailSubject != null">`email_subject` =
+                #{emailSubject},
+            </if>
+            <if test="emailContent != null">`email_content` =
+                #{emailContent},
+            </if>
+            <if test="extend1 != null">`extend1` =
+                #{extend1},
+            </if>
+            <if test="extend2 != null">`extend2` =
+                #{extend2},
+            </if>
+            <if test="extend3 != null">`extend3` =
+                #{extend3},
+            </if>
+            <if test="extend4 != null">`extend4` =
+                #{extend4},
+            </if>
+            <if test="extend5 != null">`extend5` =
+                #{extend5}
+            </if>
+        </set>
+        where pkid = #{pkid}
+    </update>
+
+    <delete id="delete">
+        DELETE FROM t_alarm_template
+        WHERE pkid = #{value}
+    </delete>
+
+    <delete id="deleteBatch">
+        delete from t_alarm_template where pkid in
+        <foreach item="pkid" collection="array" open="(" separator="," close=")">
+            #{pkid}
+        </foreach>
+    </delete>
+
+    <select id="selectOne" parameterType="java.util.Map" resultType="com.ryfchina.demo.repository.model.AlarmTemplate">
+        select
+        <include refid="allColumns"/>
+        from t_alarm_template
+        <where>
+            <if test="pkid != null and pkid.trim() != '' ">
+                and `pkid` = #{pkid}
+            </if>
+            <if test="templateName != null and templateName.trim() != '' ">
+                and `template_name` = #{templateName}
+            </if>
+            <if test="validFlag != null and validFlag.trim() != '' ">
+                and `valid_flag` = #{validFlag}
+            </if>
+            <if test="alarmType != null and alarmType.trim() != '' ">
+                and `alarm_type` = #{alarmType}
+            </if>
+            <if test="smsContent != null and smsContent.trim() != '' ">
+                and `sms_content` = #{smsContent}
+            </if>
+            <if test="emailSubject != null and emailSubject.trim() != '' ">
+                and `email_subject` = #{emailSubject}
+            </if>
+            <if test="emailContent != null and emailContent.trim() != '' ">
+                and `email_content` = #{emailContent}
+            </if>
+            <if test="extend1 != null and extend1.trim() != '' ">
+                and `extend1` = #{extend1}
+            </if>
+            <if test="extend2 != null and extend2.trim() != '' ">
+                and `extend2` = #{extend2}
+            </if>
+            <if test="extend3 != null and extend3.trim() != '' ">
+                and `extend3` = #{extend3}
+            </if>
+            <if test="extend4 != null and extend4.trim() != '' ">
+                and `extend4` = #{extend4}
+            </if>
+            <if test="extend5 != null and extend5.trim() != '' ">
+                and `extend5` = #{extend5}
+            </if>
+        </where>
+        order by pkid desc limit 1
+    </select>
+
+    <insert id="saveBatch" parameterType="java.util.List">
+        insert into t_alarm_template
+        (
+        `pkid`,
+        `template_name`,
+        `valid_flag`,
+        `alarm_type`,
+        `sms_content`,
+        `email_subject`,
+        `email_content`,
+        `extend1`,
+        `extend2`,
+        `extend3`,
+        `extend4`,
+        `extend5`
+        )
+        values
+        <foreach collection="larmTemplateList" item="item" index="index" separator=",">
+            (
+            #{pkid},
+            #{templateName},
+            #{validFlag},
+            #{alarmType},
+            #{smsContent},
+            #{emailSubject},
+            #{emailContent},
+            #{extend1},
+            #{extend2},
+            #{extend3},
+            #{extend4},
+            #{extend5}
+            )
+        </foreach>
+    </insert>
+
+</mapper>

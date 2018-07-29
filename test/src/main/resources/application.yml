@@ -1,0 +1,50 @@
+server:
+  tomcat:
+    uri-encoding: utf-8
+    max-threads: 1000
+    min-spare-threads: 0
+  port: 9009
+  ssl:
+    key-store: classpath:keystore.p12
+    key-store-password: malliance-ipay
+    key-store-type: PKCS12
+    key-alias: tomcat
+
+http:
+  port: 9019
+spring:
+  profiles:
+    active: dev
+  jackson:
+    time-zone: GMT+8
+    date-format: yyyy-MM-dd HH:mm:ss
+  http:
+    multipart:
+      max-file-size: 100MB
+      max-request-size: 100MB
+      enabled: true
+  resources:
+    #指定静态资源路径
+    static-locations: classpath:/static/,classpath:/views/
+  devtools:
+    livereload:
+      enabled: true
+    restart:
+      enabled: true
+      additional-exclude: views/**
+
+#Mybatis 配置
+mybatis:
+  mapper-locations: classpath*:/com/ryfchina/demo/repository/mapper/*.xml
+  config-location: classpath:mybatis.xml
+
+config:
+  token:
+    expire: 1440     #60*24   24小时过期
+  worker: 101
+
+#RabbitMQ 参数配置
+mqconfig:
+      riskQueue: riskQueue
+      warnQueue: warnQueue
+      defaultTemplateId: 000001

@@ -1,0 +1,200 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.ryfchina.demo.repository.dao.AlarmReceiverDao">
+
+    <!-- 可根据自己的需求，是否要使用 -->
+    <resultMap type="com.ryfchina.demo.repository.model.AlarmReceiver" id="alarmReceiverMap">
+                    <result property="pkid" column="pkid"/>
+                    <result property="templateId" column="template_id"/>
+                    <result property="templateName" column="template_name"/>
+                    <result property="receiverId" column="receiver_id"/>
+                    <result property="receiverName" column="receiver_name"/>
+                    <result property="sendType" column="send_type"/>
+                    <result property="email" column="email"/>
+                    <result property="phone" column="phone"/>
+                    <result property="status" column="status"/>
+                    <result property="extend1" column="extend1"/>
+                    <result property="extend2" column="extend2"/>
+                    <result property="extend3" column="extend3"/>
+                    <result property="extend4" column="extend4"/>
+                    <result property="extend5" column="extend5"/>
+
+                <result property="createUserName" column="create_user_name"/>
+        <result property="updateUserName" column="update_user_name"/>
+    </resultMap>
+
+    <sql id="allColumns">
+              pkid, template_id, receiver_id,send_type, extend1, extend2, extend3,extend4,extend5</sql>
+
+    <select id="view" resultType="com.ryfchina.demo.repository.model.AlarmReceiver">
+        SELECT
+            a.pkid,c.phone,c.email,
+            a.template_id,
+            b.template_name,
+            a.receiver_id,
+            c.receiver_name,
+            a.send_type,
+            c.valid_flag status
+        from t_alarm_receiver a
+            left join t_alarm_template b on a.template_id = b.pkid
+            left join t_alarm_receiver_info c on a.receiver_id = c.pkid
+        where a.pkid = #{value}
+    </select>
+
+    <select id="list" resultType="com.ryfchina.demo.repository.model.AlarmReceiver">
+        select
+        a.pkid,c.phone,c.email,
+        a.template_id,
+        b.template_name,
+        a.receiver_id,
+        c.receiver_name,
+        a.send_type,
+        c.valid_flag status
+        from t_alarm_receiver a
+        left join t_alarm_template b on a.template_id = b.pkid
+        left join t_alarm_receiver_info c on a.receiver_id = c.pkid
+        <where>
+             <if test="templateId != null and templateId.trim() != ''">
+                and `template_id` like concat('%',#{templateId},'%')
+             </if>
+            <if test="receiverName != null and receiverName.trim() != ''">
+                and `receiver_name` like concat('%',#{receiverName},'%')
+            </if>
+
+            <if test="phone != null and phone.trim() != ''">
+                and `phone` like concat('%',#{phone},'%')
+            </if>
+            <if test="email != null and email.trim() != ''">
+                and `email` like concat('%',#{email},'%')
+            </if>
+        </where>
+        <choose>
+            <when test="sidx != null and sidx.trim() != ''">
+                order by ${sidx} ${order}
+            </when>
+            <otherwise>
+                order by pkid desc
+            </otherwise>
+        </choose>
+        <if test="offset != null and limit != null">
+            limit #{offset}, #{limit}
+        </if>
+    </select>
+
+    <select id="count" resultType="int">
+        SELECT count(1)
+        from t_alarm_receiver a
+        left join t_alarm_template b on a.template_id = b.pkid
+        left join t_alarm_receiver_info c on a.receiver_id = c.pkid
+        <where>
+            <if test="templateId != null and templateId.trim() != ''">
+                and `template_id` like concat('%',#{templateId},'%')
+            </if>
+            <if test="receiverName != null and receiverName.trim() != ''">
+                and `receiver_name` like concat('%',#{receiverName},'%')
+            </if>
+
+            <if test="phone != null and phone.trim() != ''">
+                and `phone` like concat('%',#{phone},'%')
+            </if>
+            <if test="email != null and email.trim() != ''">
+                and `email` like concat('%',#{email},'%')
+            </if>
+        </where>
+    </select>
+
+    <insert id="save" parameterType="com.ryfchina.demo.repository.model.AlarmReceiver">
+        INSERT INTO t_alarm_receiver
+            (pkid , template_id , receiver_id , send_type , extend1 , extend2 , extend3 ,extend4 ,extend5 )
+        VALUES
+        ( #{pkid} , #{templateId} ,#{receiverId} , #{sendType} , #{extend1} , #{extend2} , #{extend3} ,  #{extend4} ,  #{extend5} )
+    </insert>
+
+    <update id="update" parameterType="com.ryfchina.demo.repository.model.AlarmReceiver">
+        update t_alarm_receiver
+        <set>
+         <if test="templateId != null">`template_id` = #{templateId}, </if>
+          <if test="receiverId != null">`receiver_id` =#{receiverId}, </if>
+           <if test="sendType != null">`send_type` =#{sendType}</if>
+         </set>
+        where pkid = #{pkid}
+    </update>
+
+    <delete id="delete">
+        DELETE FROM t_alarm_receiver where pkid = #{value}
+    </delete>
+
+    <delete id="deleteBatch">
+        delete from t_alarm_receiver where pkid in
+        <foreach item="pkid" collection="array" open="(" separator="," close=")">
+            #{pkid}
+        </foreach>
+    </delete>
+
+    <select id="selectOne" parameterType="java.util.Map" resultType="com.ryfchina.demo.repository.model.AlarmReceiver">
+        select
+        <include refid="allColumns"/>
+        from t_alarm_receiver
+        <where>
+                            <if test="pkid != null and pkid.trim() != '' ">
+                    and `pkid` = #{pkid}
+                </if>
+                            <if test="templateId != null and templateId.trim() != '' ">
+                    and `template_id` = #{templateId}
+                </if>
+                            <if test="receiverId != null and receiverId.trim() != '' ">
+                    and `receiver_id` = #{receiverId}
+                </if>
+                            <if test="sendType != null and sendType.trim() != '' ">
+                    and `send_type` = #{sendType}
+                </if>
+                            <if test="extend1 != null and extend1.trim() != '' ">
+                    and `extend1` = #{extend1}
+                </if>
+                            <if test="extend2 != null and extend2.trim() != '' ">
+                    and `extend2` = #{extend2}
+                </if>
+                            <if test="extend3 != null and extend3.trim() != '' ">
+                    and `extend3` = #{extend3}
+                </if>
+                            <if test="extend4 != null and extend4.trim() != '' ">
+                    and `extend4` = #{extend4}
+                </if>
+                            <if test="extend5 != null and extend5.trim() != '' ">
+                    and `extend5` = #{extend5}
+                </if>
+                    </where>
+        order by pkid desc limit 1
+    </select>
+
+    <insert id="saveBatch" parameterType="java.util.List">
+        insert into t_alarm_receiver
+        (
+                                    `pkid`,
+                                                `template_id`,
+                                                `receiver_id`,
+                                                `send_type`,
+                                                `extend1`,
+                                                `extend2`,
+                                                `extend3`,
+                                                `extend4`,
+                                                `extend5`
+                            )
+        values
+        <foreach collection="alarmReceiverList" item="item" index="index" separator=",">
+            (
+                                                #{pkid},
+                                                                #{templateId},
+                                                                #{receiverId},
+                                                                #{sendType},
+                                                                #{extend1},
+                                                                #{extend2},
+                                                                #{extend3},
+                                                                #{extend4},
+                                                                #{extend5}
+                                        )
+        </foreach>
+    </insert>
+
+</mapper>

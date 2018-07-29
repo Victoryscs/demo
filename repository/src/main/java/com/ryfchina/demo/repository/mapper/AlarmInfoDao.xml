@@ -1,0 +1,331 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.ryfchina.demo.repository.dao.AlarmInfoDao">
+
+    <!-- 可根据自己的需求，是否要使用 -->
+    <resultMap type="com.ryfchina.demo.repository.model.AlarmInfo" id="Map">
+        <result property="pkid" column="pkid"/>
+        <result property="templateId" column="template_id"/>
+        <result property="phone" column="phone"/>
+        <result property="smsContent" column="sms_content"/>
+        <result property="email" column="email"/>
+        <result property="emailContent" column="email_content"/>
+        <result property="status" column="status"/>
+        <result property="createTime" column="create_time"/>
+        <result property="params" column="params"/>
+        <result property="receiver" column="receiver"/>
+        <result property="extend1" column="extend1"/>
+        <result property="extend2" column="extend2"/>
+        <result property="extend3" column="extend3"/>
+        <result property="extend4" column="extend4"/>
+        <result property="extend5" column="extend5"/>
+        <result property="createUserName" column="create_user_name"/>
+        <result property="updateUserName" column="update_user_name"/>
+    </resultMap>
+
+    <sql id="allColumns">
+        pkid,                             template_id,                             phone,                             sms_content,                             email,                             email_content,                             status,                             create_time,                             params,                             receiver,                             extend1,                             extend2,                             extend3,                             extend4,                             extend5                </sql>
+
+    <select id="view" resultType="com.ryfchina.demo.repository.model.AlarmInfo">
+        SELECT *
+        FROM t_alarm_info where pkid = #{value}
+    </select>
+
+    <select id="list" resultType="com.ryfchina.demo.repository.model.AlarmInfo">
+        select
+        <include refid="allColumns"/>
+        from t_alarm_info
+        <where>
+            <if test="pkid != null and pkid.trim() != ''">
+                and `pkid` like concat('%',#{pkid},'%')
+            </if>
+            <if test="templateId != null and templateId.trim() != ''">
+                and `template_id` like concat('%',#{templateId},'%')
+            </if>
+            <if test="phone != null and phone.trim() != ''">
+                and `phone` like concat('%',#{phone},'%')
+            </if>
+            <if test="smsContent != null and smsContent.trim() != ''">
+                and `sms_content` like concat('%',#{smsContent},'%')
+            </if>
+            <if test="email != null and email.trim() != ''">
+                and `email` like concat('%',#{email},'%')
+            </if>
+            <if test="emailContent != null and emailContent.trim() != ''">
+                and `email_content` like concat('%',#{emailContent},'%')
+            </if>
+            <if test="status != null and status.trim() != ''">
+                and `status` like concat('%',#{status},'%')
+            </if>
+            <if test="createTime != null and createTime.trim() != ''">
+                and `create_time` like concat('%',#{createTime},'%')
+            </if>
+            <if test="params != null and params.trim() != ''">
+                and `params` like concat('%',#{params},'%')
+            </if>
+            <if test="receiver != null and receiver.trim() != ''">
+                and `receiver` like concat('%',#{receiver},'%')
+            </if>
+            <if test="extend1 != null and extend1.trim() != ''">
+                and `extend1` like concat('%',#{extend1},'%')
+            </if>
+            <if test="extend2 != null and extend2.trim() != ''">
+                and `extend2` like concat('%',#{extend2},'%')
+            </if>
+            <if test="extend3 != null and extend3.trim() != ''">
+                and `extend3` like concat('%',#{extend3},'%')
+            </if>
+            <if test="extend4 != null and extend4.trim() != ''">
+                and `extend4` like concat('%',#{extend4},'%')
+            </if>
+            <if test="extend5 != null and extend5.trim() != ''">
+                and `extend5` like concat('%',#{extend5},'%')
+            </if>
+        </where>
+        <choose>
+            <when test="sidx != null and sidx.trim() != ''">
+                order by ${sidx} ${order}
+            </when>
+            <otherwise>
+                order by pkid desc
+            </otherwise>
+        </choose>
+        <if test="offset != null and limit != null">
+            limit #{offset}, #{limit}
+        </if>
+    </select>
+
+    <select id="count" resultType="int">
+        SELECT count(1)
+        FROM t_alarm_info
+        <where>
+            <if test="pkid != null and pkid.trim() != ''">
+                and `pkid` like concat('%',#{pkid},'%')
+            </if>
+            <if test="templateId != null and templateId.trim() != ''">
+                and `template_id` like concat('%',#{templateId},'%')
+            </if>
+            <if test="phone != null and phone.trim() != ''">
+                and `phone` like concat('%',#{phone},'%')
+            </if>
+            <if test="smsContent != null and smsContent.trim() != ''">
+                and `sms_content` like concat('%',#{smsContent},'%')
+            </if>
+            <if test="email != null and email.trim() != ''">
+                and `email` like concat('%',#{email},'%')
+            </if>
+            <if test="emailContent != null and emailContent.trim() != ''">
+                and `email_content` like concat('%',#{emailContent},'%')
+            </if>
+            <if test="status != null and status.trim() != ''">
+                and `status` like concat('%',#{status},'%')
+            </if>
+            <if test="createTime != null and createTime.trim() != ''">
+                and `create_time` like concat('%',#{createTime},'%')
+            </if>
+            <if test="params != null and params.trim() != ''">
+                and `params` like concat('%',#{params},'%')
+            </if>
+            <if test="receiver != null and receiver.trim() != ''">
+                and `receiver` like concat('%',#{receiver},'%')
+            </if>
+            <if test="extend1 != null and extend1.trim() != ''">
+                and `extend1` like concat('%',#{extend1},'%')
+            </if>
+            <if test="extend2 != null and extend2.trim() != ''">
+                and `extend2` like concat('%',#{extend2},'%')
+            </if>
+            <if test="extend3 != null and extend3.trim() != ''">
+                and `extend3` like concat('%',#{extend3},'%')
+            </if>
+            <if test="extend4 != null and extend4.trim() != ''">
+                and `extend4` like concat('%',#{extend4},'%')
+            </if>
+            <if test="extend5 != null and extend5.trim() != ''">
+                and `extend5` like concat('%',#{extend5},'%')
+            </if>
+        </where>
+    </select>
+
+    <insert id="save" parameterType="com.ryfchina.demo.repository.model.AlarmInfo">
+        INSERT INTO t_alarm_info
+        (
+        pkid ,
+        template_id ,
+        phone ,
+        sms_content ,
+        email ,
+        email_content ,
+        status ,
+        create_time ,
+        params ,
+        receiver ,
+        extend1 ,
+        extend2 ,
+        extend3 ,
+        extend4 ,
+        extend5
+        )
+        VALUES
+        (
+        #{pkid} ,
+        #{templateId} ,
+        #{phone} ,
+        #{smsContent} ,
+        #{email} ,
+        #{emailContent} ,
+        #{status} ,
+        #{createTime} ,
+        #{params} ,
+        #{receiver} ,
+        #{extend1} ,
+        #{extend2} ,
+        #{extend3} ,
+        #{extend4} ,
+        #{extend5}
+        )
+    </insert>
+
+    <update id="update" parameterType="com.ryfchina.demo.repository.model.AlarmInfo">
+        update t_alarm_info
+        <set>
+            <if test="templateId != null">`template_id` =
+                #{templateId}, </if>
+            <if test="phone != null">`phone` =
+                #{phone}, </if>
+            <if test="smsContent != null">`sms_content` =
+                #{smsContent}, </if>
+            <if test="email != null">`email` =
+                #{email}, </if>
+            <if test="emailContent != null">`email_content` =
+                #{emailContent}, </if>
+            <if test="status != null">`status` =
+                #{status}, </if>
+            <if test="createTime != null">`create_time` =
+                #{createTime}, </if>
+            <if test="params != null">`params` =
+                #{params}, </if>
+            <if test="receiver != null">`receiver` =
+                #{receiver}, </if>
+            <if test="extend1 != null">`extend1` =
+                #{extend1}, </if>
+            <if test="extend2 != null">`extend2` =
+                #{extend2}, </if>
+            <if test="extend3 != null">`extend3` =
+                #{extend3}, </if>
+            <if test="extend4 != null">`extend4` =
+                #{extend4}, </if>
+            <if test="extend5 != null">`extend5` =
+                #{extend5}</if>
+        </set>
+        where pkid = #{pkid}
+    </update>
+
+    <delete id="delete">
+        DELETE FROM t_alarm_info where pkid = #{value}
+    </delete>
+
+    <delete id="deleteBatch">
+        delete from t_alarm_info where pkid in
+        <foreach item="pkid" collection="array" open="(" separator="," close=")">
+            #{pkid}
+        </foreach>
+    </delete>
+
+    <select id="selectOne" parameterType="java.util.Map" resultType="com.ryfchina.demo.repository.model.AlarmInfo">
+        select
+        <include refid="allColumns"/>
+        from t_alarm_info
+        <where>
+            <if test="pkid != null and pkid.trim() != '' ">
+                and `pkid` = #{pkid}
+            </if>
+            <if test="templateId != null and templateId.trim() != '' ">
+                and `template_id` = #{templateId}
+            </if>
+            <if test="phone != null and phone.trim() != '' ">
+                and `phone` = #{phone}
+            </if>
+            <if test="smsContent != null and smsContent.trim() != '' ">
+                and `sms_content` = #{smsContent}
+            </if>
+            <if test="email != null and email.trim() != '' ">
+                and `email` = #{email}
+            </if>
+            <if test="emailContent != null and emailContent.trim() != '' ">
+                and `email_content` = #{emailContent}
+            </if>
+            <if test="status != null and status.trim() != '' ">
+                and `status` = #{status}
+            </if>
+            <if test="createTime != null and createTime.trim() != '' ">
+                and `create_time` = #{createTime}
+            </if>
+            <if test="params != null and params.trim() != '' ">
+                and `params` = #{params}
+            </if>
+            <if test="receiver != null and receiver.trim() != '' ">
+                and `receiver` = #{receiver}
+            </if>
+            <if test="extend1 != null and extend1.trim() != '' ">
+                and `extend1` = #{extend1}
+            </if>
+            <if test="extend2 != null and extend2.trim() != '' ">
+                and `extend2` = #{extend2}
+            </if>
+            <if test="extend3 != null and extend3.trim() != '' ">
+                and `extend3` = #{extend3}
+            </if>
+            <if test="extend4 != null and extend4.trim() != '' ">
+                and `extend4` = #{extend4}
+            </if>
+            <if test="extend5 != null and extend5.trim() != '' ">
+                and `extend5` = #{extend5}
+            </if>
+        </where>
+        order by pkid desc limit 1
+    </select>
+
+    <insert id="saveBatch" parameterType="java.util.List">
+        insert into t_alarm_info
+        (
+        `pkid`,
+        `template_id`,
+        `phone`,
+        `sms_content`,
+        `email`,
+        `email_content`,
+        `status`,
+        `create_time`,
+        `params`,
+        `receiver`,
+        `extend1`,
+        `extend2`,
+        `extend3`,
+        `extend4`,
+        `extend5`
+        )
+        values
+        <foreach collection="List" item="item" index="index" separator=",">
+            (
+            #{pkid},
+            #{templateId},
+            #{phone},
+            #{smsContent},
+            #{email},
+            #{emailContent},
+            #{status},
+            #{createTime},
+            #{params},
+            #{receiver},
+            #{extend1},
+            #{extend2},
+            #{extend3},
+            #{extend4},
+            #{extend5}
+            )
+        </foreach>
+    </insert>
+
+</mapper>

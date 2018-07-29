@@ -1,0 +1,414 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.ryfchina.demo.repository.dao.AccountDao">
+
+    <!-- 可根据自己的需求，是否要使用 -->
+    <resultMap type="com.ryfchina.demo.repository.model.Account" id="accountMap">
+        <result property="pkid" column="pkid"/>
+        <result property="name" column="name"/>
+        <result property="subject" column="subject"/>
+        <result property="belong" column="belong"/>
+        <result property="type" column="type"/>
+        <result property="catagory" column="catagory"/>
+        <result property="balance" column="balance"/>
+        <result property="balanceUsable" column="balance_usable"/>
+        <result property="balanceFrozen" column="balance_frozen"/>
+        <result property="currency" column="currency"/>
+        <result property="createTime" column="create_time"/>
+        <result property="createUser" column="create_user"/>
+        <result property="updateTime" column="update_time"/>
+        <result property="updateUser" column="update_user"/>
+        <result property="remark" column="remark"/>
+    </resultMap>
+
+    <sql id="allColumns">
+        pkid, name, subject, belong, type, catagory, balance, balance_usable, balance_frozen, currency, create_time, create_user, update_time, update_user, remark                </sql>
+
+    <select id="view" resultType="com.ryfchina.demo.repository.model.Account">
+        SELECT
+            a.pkid,
+            a.NAME,
+            a.SUBJECT,
+            a.belong,
+            (
+                CASE
+                WHEN a.type = '1'
+                    THEN
+                        b.`name`
+                WHEN a.type = '2'
+                    THEN
+                        c.mer_short_name
+                ELSE
+                    ''
+                END
+            )        belong_value,
+            a.type,
+            a.catagory,
+            d.`name` catagory_value,
+            a.balance,
+            a.balance_usable,
+            a.balance_frozen,
+            a.currency,
+            a.create_time,
+            a.create_user,
+            a.update_time,
+            a.update_user,
+            a.remark
+        FROM
+            t_account a
+            LEFT JOIN t_app_user b ON a.belong = b.pkid
+            LEFT JOIN t_merchant_info c ON a.belong = c.pkid
+            LEFT JOIN t_account_catagory d ON a.catagory = d.CODE
+        WHERE a.pkid = #{value}
+    </select>
+
+    <select id="list" resultType="com.ryfchina.demo.repository.model.Account">
+        SELECT
+        a.pkid,
+        a. NAME,
+        a. SUBJECT,
+        a.belong,
+        (
+        CASE
+        WHEN a.type = '1' THEN
+        b.`name`
+        WHEN a.type = '2' THEN
+        c.mer_short_name
+        ELSE
+        ''
+        END
+        ) belong_value,
+        a.type,
+        a.catagory,
+        d.`name` catagory_value,
+        a.balance,
+        a.balance_usable,
+        a.balance_frozen,
+        a.currency,
+        a.create_time,
+        a.create_user,
+        a.update_time,
+        a.update_user,
+        a.remark
+        FROM
+        t_account a
+        LEFT JOIN t_app_user b ON a.belong = b.pkid
+        LEFT JOIN t_merchant_info c ON a.belong = c.pkid
+        LEFT JOIN t_account_catagory d ON a.catagory = d. CODE
+        <where>
+            <if test="pkid != null and pkid.trim() != ''">
+                and a.`pkid` like concat('%',#{pkid},'%')
+            </if>
+            <if test="name != null and name.trim() != ''">
+                and a.`name` like concat('%',#{name},'%')
+            </if>
+            <if test="subject != null and subject.trim() != ''">
+                and a.`subject` like concat('%',#{subject},'%')
+            </if>
+            <if test="belong != null and belong.trim() != ''">
+                and a.`belong`=#{belong}
+            </if>
+            <if test="merchantId != null and merchantId.trim() != ''">
+                and b.`merchant_id`=#{merchantId} or c.`pkid`=#{merchantId}
+            </if>
+            <if test="type != null and type.trim() != ''">
+                and a.`type` like concat('%',#{type},'%')
+            </if>
+            <if test="catagory != null and catagory.trim() != ''">
+                and a.`catagory` like concat('%',#{catagory},'%')
+            </if>
+            <if test="balance != null and balance.trim() != ''">
+                and a.`balance` like concat('%',#{balance},'%')
+            </if>
+            <if test="balanceUsable != null and balanceUsable.trim() != ''">
+                and a.`balance_usable` like concat('%',#{balanceUsable},'%')
+            </if>
+            <if test="balanceFrozen != null and balanceFrozen.trim() != ''">
+                and a.`balance_frozen` like concat('%',#{balanceFrozen},'%')
+            </if>
+            <if test="currency != null and currency.trim() != ''">
+                and a.`currency` like concat('%',#{currency},'%')
+            </if>
+            <if test="createTime != null and createTime.trim() != ''">
+                and a.`create_time` like concat('%',#{createTime},'%')
+            </if>
+            <if test="createUser != null and createUser.trim() != ''">
+                and a.`create_user` like concat('%',#{createUser},'%')
+            </if>
+            <if test="updateTime != null and updateTime.trim() != ''">
+                and a.`update_time` like concat('%',#{updateTime},'%')
+            </if>
+            <if test="updateUser != null and updateUser.trim() != ''">
+                and a.`update_user` like concat('%',#{updateUser},'%')
+            </if>
+            <if test="remark != null and remark.trim() != ''">
+                and a.`remark` like concat('%',#{remark},'%')
+            </if>
+        </where>
+        <choose>
+            <when test="sidx != null and sidx.trim() != ''">
+                order by ${sidx} ${order}
+            </when>
+            <otherwise>
+                order by a.pkid desc
+            </otherwise>
+        </choose>
+        <if test="offset != null and limit != null">
+            limit #{offset}, #{limit}
+        </if>
+    </select>
+
+    <select id="count" resultType="int">
+        SELECT count(1)
+        FROM t_account  a
+        LEFT JOIN t_app_user b ON a.belong = b.pkid
+        LEFT JOIN t_merchant_info c ON a.belong = c.pkid
+        <where>
+            <if test="pkid != null and pkid.trim() != ''">
+                and a.`pkid` like concat('%',#{pkid},'%')
+            </if>
+            <if test="merchantId != null and merchantId.trim() != ''">
+                and b.`merchant_id`=#{merchantId} or c.`pkid`=#{merchantId}
+            </if>
+            <if test="name != null and name.trim() != ''">
+                and a.`name` like concat('%',#{name},'%')
+            </if>
+            <if test="subject != null and subject.trim() != ''">
+                and a.`subject` like concat('%',#{subject},'%')
+            </if>
+            <if test="belong != null and belong.trim() != ''">
+                and a.`belong` =#{belong}
+            </if>
+            <if test="type != null and type.trim() != ''">
+                and a.`type` like concat('%',#{type},'%')
+            </if>
+            <if test="catagory != null and catagory.trim() != ''">
+                and a.`catagory` like concat('%',#{catagory},'%')
+            </if>
+            <if test="balance != null and balance.trim() != ''">
+                and a.`balance` like concat('%',#{balance},'%')
+            </if>
+            <if test="balanceUsable != null and balanceUsable.trim() != ''">
+                and a.`balance_usable` like concat('%',#{balanceUsable},'%')
+            </if>
+            <if test="balanceFrozen != null and balanceFrozen.trim() != ''">
+                and a.`balance_frozen` like concat('%',#{balanceFrozen},'%')
+            </if>
+            <if test="currency != null and currency.trim() != ''">
+                and a.`currency` like concat('%',#{currency},'%')
+            </if>
+            <if test="createTime != null and createTime.trim() != ''">
+                and a.`create_time` like concat('%',#{createTime},'%')
+            </if>
+            <if test="createUser != null and createUser.trim() != ''">
+                and a.`create_user` like concat('%',#{createUser},'%')
+            </if>
+            <if test="updateTime != null and updateTime.trim() != ''">
+                and a.`update_time` like concat('%',#{updateTime},'%')
+            </if>
+            <if test="updateUser != null and updateUser.trim() != ''">
+                and a.`update_user` like concat('%',#{updateUser},'%')
+            </if>
+            <if test="remark != null and remark.trim() != ''">
+                and a.`remark` like concat('%',#{remark},'%')
+            </if>
+        </where>
+    </select>
+
+    <insert id="save" parameterType="com.ryfchina.demo.repository.model.Account">
+        INSERT INTO t_account
+        (
+            pkid,
+            name,
+            subject,
+            belong,
+            type,
+            catagory,
+            balance,
+            balance_usable,
+            balance_frozen,
+            currency,
+            create_time,
+            create_user,
+            update_time,
+            update_user,
+            remark
+        )
+        VALUES
+            (
+                #{pkid},
+                #{name},
+                #{subject},
+                #{belong},
+                #{type},
+                #{catagory},
+                #{balance},
+                #{balanceUsable},
+                #{balanceFrozen},
+                #{currency},
+                #{createTime},
+                #{createUser},
+                #{updateTime},
+                #{updateUser},
+                #{remark}
+            )
+    </insert>
+
+    <update id="update" parameterType="com.ryfchina.demo.repository.model.Account">
+        update t_account
+        <set>
+            <if test="name != null">`name` =
+                #{name},
+            </if>
+            <if test="subject != null">`subject` =
+                #{subject},
+            </if>
+            <if test="belong != null">`belong` =
+                #{belong},
+            </if>
+            <if test="type != null">`type` =
+                #{type},
+            </if>
+            <if test="catagory != null">`catagory` =
+                #{catagory},
+            </if>
+            <if test="balance != null">`balance` =
+                #{balance},
+            </if>
+            <if test="balanceUsable != null">`balance_usable` =
+                #{balanceUsable},
+            </if>
+            <if test="balanceFrozen != null">`balance_frozen` =
+                #{balanceFrozen},
+            </if>
+            <if test="currency != null">`currency` =
+                #{currency},
+            </if>
+            <if test="createTime != null">`create_time` =
+                #{createTime},
+            </if>
+            <if test="createUser != null">`create_user` =
+                #{createUser},
+            </if>
+            <if test="updateTime != null">`update_time` =
+                #{updateTime},
+            </if>
+            <if test="updateUser != null">`update_user` =
+                #{updateUser},
+            </if>
+            <if test="remark != null">`remark` =
+                #{remark}
+            </if>
+        </set>
+        where pkid = #{pkid}
+    </update>
+
+    <delete id="delete">
+        DELETE FROM t_account
+        WHERE pkid = #{value}
+    </delete>
+
+    <delete id="deleteBatch">
+        delete from t_account where pkid in
+        <foreach item="pkid" collection="array" open="(" separator="," close=")">
+            #{pkid}
+        </foreach>
+    </delete>
+
+    <select id="selectOne" parameterType="java.util.Map" resultType="com.ryfchina.demo.repository.model.Account">
+        select
+        <include refid="allColumns"/>
+        from t_account
+        <where>
+            <if test="pkid != null and pkid.trim() != '' ">
+                and `pkid` = #{pkid}
+            </if>
+            <if test="name != null and name.trim() != '' ">
+                and `name` = #{name}
+            </if>
+            <if test="subject != null and subject.trim() != '' ">
+                and `subject` = #{subject}
+            </if>
+            <if test="belong != null and belong.trim() != '' ">
+                and `belong` = #{belong}
+            </if>
+            <if test="type != null and type.trim() != '' ">
+                and `type` = #{type}
+            </if>
+            <if test="catagory != null and catagory.trim() != '' ">
+                and `catagory` = #{catagory}
+            </if>
+            <if test="balance != null and balance.trim() != '' ">
+                and `balance` = #{balance}
+            </if>
+            <if test="balanceUsable != null and balanceUsable.trim() != '' ">
+                and `balance_usable` = #{balanceUsable}
+            </if>
+            <if test="balanceFrozen != null and balanceFrozen.trim() != '' ">
+                and `balance_frozen` = #{balanceFrozen}
+            </if>
+            <if test="currency != null and currency.trim() != '' ">
+                and `currency` = #{currency}
+            </if>
+            <if test="createTime != null and createTime.trim() != '' ">
+                and `create_time` = #{createTime}
+            </if>
+            <if test="createUser != null and createUser.trim() != '' ">
+                and `create_user` = #{createUser}
+            </if>
+            <if test="updateTime != null and updateTime.trim() != '' ">
+                and `update_time` = #{updateTime}
+            </if>
+            <if test="updateUser != null and updateUser.trim() != '' ">
+                and `update_user` = #{updateUser}
+            </if>
+            <if test="remark != null and remark.trim() != '' ">
+                and `remark` = #{remark}
+            </if>
+        </where>
+        order by pkid desc limit 1
+    </select>
+
+    <insert id="saveBatch" parameterType="java.util.List">
+        insert into t_account
+        (
+        `pkid`,
+        `name`,
+        `subject`,
+        `belong`,
+        `type`,
+        `catagory`,
+        `balance`,
+        `balance_usable`,
+        `balance_frozen`,
+        `currency`,
+        `create_time`,
+        `create_user`,
+        `update_time`,
+        `update_user`,
+        `remark`
+        )
+        values
+        <foreach collection="accountList" item="item" index="index" separator=",">
+            (
+            #{pkid},
+            #{name},
+            #{subject},
+            #{belong},
+            #{type},
+            #{catagory},
+            #{balance},
+            #{balanceUsable},
+            #{balanceFrozen},
+            #{currency},
+            #{createTime},
+            #{createUser},
+            #{updateTime},
+            #{updateUser},
+            #{remark}
+            )
+        </foreach>
+    </insert>
+
+</mapper>

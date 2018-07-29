@@ -1,0 +1,267 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.ryfchina.demo.repository.dao.AlarmReceiverInfoDao">
+
+    <!-- 可根据自己的需求，是否要使用 -->
+    <resultMap type="com.ryfchina.demo.repository.model.AlarmReceiverInfo" id="alarmReceiverInfoMap">
+        <result property="pkid" column="pkid"/>
+        <result property="receiverName" column="receiver_name"/>
+        <result property="phone" column="phone"/>
+        <result property="email" column="email"/>
+        <result property="validFlag" column="valid_flag"/>
+        <result property="remark" column="remark"/>
+        <result property="extend1" column="extend1"/>
+        <result property="extend2" column="extend2"/>
+        <result property="extend3" column="extend3"/>
+        <result property="extend4" column="extend4"/>
+        <result property="extend5" column="extend5"/>
+        <result property="createUserName" column="create_user_name"/>
+        <result property="updateUserName" column="update_user_name"/>
+    </resultMap>
+
+    <sql id="allColumns">
+        pkid,                             receiver_name,                             phone,                             email,                             valid_flag,                             remark,                             extend1,                             extend2,                             extend3,                             extend4,                             extend5                </sql>
+
+    <select id="view" resultType="com.ryfchina.demo.repository.model.AlarmReceiverInfo">
+        SELECT *
+        FROM t_alarm_receiver_info where pkid = #{value}
+    </select>
+
+    <select id="list" resultType="com.ryfchina.demo.repository.model.AlarmReceiverInfo">
+        select
+        <include refid="allColumns"/>
+        from t_alarm_receiver_info
+        <where>
+            <if test="pkid != null and pkid.trim() != ''">
+                and `pkid` like concat('%',#{pkid},'%')
+            </if>
+            <if test="receiverName != null and receiverName.trim() != ''">
+                and `receiver_name` like concat('%',#{receiverName},'%')
+            </if>
+            <if test="phone != null and phone.trim() != ''">
+                and `phone` like concat('%',#{phone},'%')
+            </if>
+            <if test="email != null and email.trim() != ''">
+                and `email` like concat('%',#{email},'%')
+            </if>
+            <if test="validFlag != null and validFlag.trim() != ''">
+                and `valid_flag` like concat('%',#{validFlag},'%')
+            </if>
+            <if test="remark != null and remark.trim() != ''">
+                and `remark` like concat('%',#{remark},'%')
+            </if>
+            <if test="extend1 != null and extend1.trim() != ''">
+                and `extend1` like concat('%',#{extend1},'%')
+            </if>
+            <if test="extend2 != null and extend2.trim() != ''">
+                and `extend2` like concat('%',#{extend2},'%')
+            </if>
+            <if test="extend3 != null and extend3.trim() != ''">
+                and `extend3` like concat('%',#{extend3},'%')
+            </if>
+            <if test="extend4 != null and extend4.trim() != ''">
+                and `extend4` like concat('%',#{extend4},'%')
+            </if>
+            <if test="extend5 != null and extend5.trim() != ''">
+                and `extend5` like concat('%',#{extend5},'%')
+            </if>
+        </where>
+        <choose>
+            <when test="sidx != null and sidx.trim() != ''">
+                order by ${sidx} ${order}
+            </when>
+            <otherwise>
+                order by pkid desc
+            </otherwise>
+        </choose>
+        <if test="offset != null and limit != null">
+            limit #{offset}, #{limit}
+        </if>
+    </select>
+
+    <select id="count" resultType="int">
+        SELECT count(1)
+        FROM t_alarm_receiver_info
+        <where>
+            <if test="pkid != null and pkid.trim() != ''">
+                and `pkid` like concat('%',#{pkid},'%')
+            </if>
+            <if test="receiverName != null and receiverName.trim() != ''">
+                and `receiver_name` like concat('%',#{receiverName},'%')
+            </if>
+            <if test="phone != null and phone.trim() != ''">
+                and `phone` like concat('%',#{phone},'%')
+            </if>
+            <if test="email != null and email.trim() != ''">
+                and `email` like concat('%',#{email},'%')
+            </if>
+            <if test="validFlag != null and validFlag.trim() != ''">
+                and `valid_flag` like concat('%',#{validFlag},'%')
+            </if>
+            <if test="remark != null and remark.trim() != ''">
+                and `remark` like concat('%',#{remark},'%')
+            </if>
+            <if test="extend1 != null and extend1.trim() != ''">
+                and `extend1` like concat('%',#{extend1},'%')
+            </if>
+            <if test="extend2 != null and extend2.trim() != ''">
+                and `extend2` like concat('%',#{extend2},'%')
+            </if>
+            <if test="extend3 != null and extend3.trim() != ''">
+                and `extend3` like concat('%',#{extend3},'%')
+            </if>
+            <if test="extend4 != null and extend4.trim() != ''">
+                and `extend4` like concat('%',#{extend4},'%')
+            </if>
+            <if test="extend5 != null and extend5.trim() != ''">
+                and `extend5` like concat('%',#{extend5},'%')
+            </if>
+        </where>
+    </select>
+
+    <insert id="save" parameterType="com.ryfchina.demo.repository.model.AlarmReceiverInfo">
+        INSERT INTO t_alarm_receiver_info
+        (
+        pkid ,
+        receiver_name ,
+        phone ,
+        email ,
+        valid_flag ,
+        remark ,
+        extend1 ,
+        extend2 ,
+        extend3 ,
+        extend4 ,
+        extend5
+        )
+        VALUES
+        (
+        #{pkid} ,
+        #{receiverName} ,
+        #{phone} ,
+        #{email} ,
+        #{validFlag} ,
+        #{remark} ,
+        #{extend1} ,
+        #{extend2} ,
+        #{extend3} ,
+        #{extend4} ,
+        #{extend5}
+        )
+    </insert>
+
+    <update id="update" parameterType="com.ryfchina.demo.repository.model.AlarmReceiverInfo">
+        update t_alarm_receiver_info
+        <set>
+            <if test="receiverName != null">`receiver_name` =
+                #{receiverName}, </if>
+            <if test="phone != null">`phone` =
+                #{phone}, </if>
+            <if test="email != null">`email` =
+                #{email}, </if>
+            <if test="validFlag != null">`valid_flag` =
+                #{validFlag}, </if>
+            <if test="remark != null">`remark` =
+                #{remark}, </if>
+            <if test="extend1 != null">`extend1` =
+                #{extend1}, </if>
+            <if test="extend2 != null">`extend2` =
+                #{extend2}, </if>
+            <if test="extend3 != null">`extend3` =
+                #{extend3}, </if>
+            <if test="extend4 != null">`extend4` =
+                #{extend4}, </if>
+            <if test="extend5 != null">`extend5` =
+                #{extend5}</if>
+        </set>
+        where pkid = #{pkid}
+    </update>
+
+    <delete id="delete">
+        DELETE FROM t_alarm_receiver_info where pkid = #{value}
+    </delete>
+
+    <delete id="deleteBatch">
+        delete from t_alarm_receiver_info where pkid in
+        <foreach item="pkid" collection="array" open="(" separator="," close=")">
+            #{pkid}
+        </foreach>
+    </delete>
+
+    <select id="selectOne" parameterType="java.util.Map" resultType="com.ryfchina.demo.repository.model.AlarmReceiverInfo">
+        select
+        <include refid="allColumns"/>
+        from t_alarm_receiver_info
+        <where>
+            <if test="pkid != null and pkid.trim() != '' ">
+                and `pkid` = #{pkid}
+            </if>
+            <if test="receiverName != null and receiverName.trim() != '' ">
+                and `receiver_name` = #{receiverName}
+            </if>
+            <if test="phone != null and phone.trim() != '' ">
+                and `phone` = #{phone}
+            </if>
+            <if test="email != null and email.trim() != '' ">
+                and `email` = #{email}
+            </if>
+            <if test="validFlag != null and validFlag.trim() != '' ">
+                and `valid_flag` = #{validFlag}
+            </if>
+            <if test="remark != null and remark.trim() != '' ">
+                and `remark` = #{remark}
+            </if>
+            <if test="extend1 != null and extend1.trim() != '' ">
+                and `extend1` = #{extend1}
+            </if>
+            <if test="extend2 != null and extend2.trim() != '' ">
+                and `extend2` = #{extend2}
+            </if>
+            <if test="extend3 != null and extend3.trim() != '' ">
+                and `extend3` = #{extend3}
+            </if>
+            <if test="extend4 != null and extend4.trim() != '' ">
+                and `extend4` = #{extend4}
+            </if>
+            <if test="extend5 != null and extend5.trim() != '' ">
+                and `extend5` = #{extend5}
+            </if>
+        </where>
+        order by pkid desc limit 1
+    </select>
+
+    <insert id="saveBatch" parameterType="java.util.List">
+        insert into t_alarm_receiver_info
+        (
+        `pkid`,
+        `receiver_name`,
+        `phone`,
+        `email`,
+        `valid_flag`,
+        `remark`,
+        `extend1`,
+        `extend2`,
+        `extend3`,
+        `extend4`,
+        `extend5`
+        )
+        values
+        <foreach collection="alarmReceiverInfoList" item="item" index="index" separator=",">
+            (
+            #{pkid},
+            #{receiverName},
+            #{phone},
+            #{email},
+            #{validFlag},
+            #{remark},
+            #{extend1},
+            #{extend2},
+            #{extend3},
+            #{extend4},
+            #{extend5}
+            )
+        </foreach>
+    </insert>
+
+</mapper>

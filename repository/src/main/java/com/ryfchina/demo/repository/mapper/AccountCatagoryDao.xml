@@ -1,0 +1,319 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.ryfchina.demo.repository.dao.AccountCatagoryDao">
+
+    <!-- 可根据自己的需求，是否要使用 -->
+    <resultMap type="com.ryfchina.demo.repository.model.AccountCatagory" id="accountCatagoryMap">
+        <result property="pkid" column="pkid"/>
+        <result property="name" column="name"/>
+        <result property="code" column="code"/>
+        <result property="belong" column="belong"/>
+        <result property="channelId" column="channel_id"/>
+        <result property="createUser" column="create_user"/>
+        <result property="createTime" column="create_time"/>
+        <result property="updateTime" column="update_time"/>
+        <result property="updateUser" column="update_user"/>
+        <result property="remark" column="remark"/>
+        <result property="upper" column="upper"/>
+        <result property="lower" column="lower"/>
+    </resultMap>
+
+    <sql id="allColumns">
+        pkid, name, code, belong, channel_id, create_user, create_time, update_time, update_user, remark, upper, lower              </sql>
+
+    <select id="view" resultType="com.ryfchina.demo.repository.model.AccountCatagory">
+        SELECT
+            a.pkid,
+            a.NAME,
+            a.CODE,
+            a.belong,
+            b.mer_short_name belong_value,
+            a.channel_id,
+            a.create_user,
+            a.create_time,
+            a.update_time,
+            a.update_user,
+            a.remark,
+            a.upper,
+            a.lower
+        FROM
+            t_account_catagory a
+            LEFT JOIN t_merchant_info b ON a.belong = b.pkid
+        WHERE a.pkid = #{value}
+    </select>
+
+    <select id="listOptions" resultType="java.util.Map">
+        SELECT
+            code,
+            name
+        FROM t_account_catagory
+    </select>
+
+    <select id="list" resultType="com.ryfchina.demo.repository.model.AccountCatagory">
+        SELECT
+        a.pkid,
+        a.NAME,
+        a.CODE,
+        a.belong,
+        b.mer_short_name belong_value,
+        a.channel_id,
+        a.create_user,
+        a.create_time,
+        a.update_time,
+        a.update_user,
+        a.remark,
+        a.upper,
+        a.lower
+        FROM
+        t_account_catagory a
+        LEFT JOIN t_merchant_info b ON a.belong = b.pkid
+        <where>
+            <if test="pkid != null and pkid.trim() != ''">
+                and a.`pkid` like concat('%',#{pkid},'%')
+            </if>
+            <if test="name != null and name.trim() != ''">
+                and a.`name` like concat('%',#{name},'%')
+            </if>
+            <if test="code != null and code.trim() != ''">
+                and a.`code` like concat('%',#{code},'%')
+            </if>
+            <if test="belong != null and belong.trim() != ''">
+                and a.`belong` =#{belong}
+            </if>
+            <if test="channelId != null and channelId.trim() != ''">
+                and a.`channel_id` like concat('%',#{channelId},'%')
+            </if>
+            <if test="createUser != null and createUser.trim() != ''">
+                and a.`create_user` like concat('%',#{createUser},'%')
+            </if>
+            <if test="createTime != null and createTime.trim() != ''">
+                and a.`create_time` like concat('%',#{createTime},'%')
+            </if>
+            <if test="updateTime != null and updateTime.trim() != ''">
+                and a.`update_time` like concat('%',#{updateTime},'%')
+            </if>
+            <if test="updateUser != null and updateUser.trim() != ''">
+                and a.`update_user` like concat('%',#{updateUser},'%')
+            </if>
+            <if test="remark != null and remark.trim() != ''">
+                and a.`remark` like concat('%',#{remark},'%')
+            </if>
+        </where>
+        <choose>
+            <when test="sidx != null and sidx.trim() != ''">
+                order by ${sidx} ${order}
+            </when>
+            <otherwise>
+                order by a.pkid desc
+            </otherwise>
+        </choose>
+        <if test="offset != null and limit != null">
+            limit #{offset}, #{limit}
+        </if>
+    </select>
+
+    <select id="count" resultType="int">
+        SELECT count(1)
+        FROM t_account_catagory a
+        <where>
+            <if test="pkid != null and pkid.trim() != ''">
+                and a.`pkid` like concat('%',#{pkid},'%')
+            </if>
+            <if test="name != null and name.trim() != ''">
+                and a.`name` like concat('%',#{name},'%')
+            </if>
+            <if test="code != null and code.trim() != ''">
+                and a.`code` like concat('%',#{code},'%')
+            </if>
+            <if test="belong != null and belong.trim() != ''">
+                and a.`belong` =#{belong}
+            </if>
+            <if test="channelId != null and channelId.trim() != ''">
+                and a.`channel_id` like concat('%',#{channelId},'%')
+            </if>
+            <if test="createUser != null and createUser.trim() != ''">
+                and a.`create_user` like concat('%',#{createUser},'%')
+            </if>
+            <if test="createTime != null and createTime.trim() != ''">
+                and a.`create_time` like concat('%',#{createTime},'%')
+            </if>
+            <if test="updateTime != null and updateTime.trim() != ''">
+                and a.`update_time` like concat('%',#{updateTime},'%')
+            </if>
+            <if test="updateUser != null and updateUser.trim() != ''">
+                and a.`update_user` like concat('%',#{updateUser},'%')
+            </if>
+            <if test="remark != null and remark.trim() != ''">
+                and a.`remark` like concat('%',#{remark},'%')
+            </if>
+        </where>
+    </select>
+
+    <insert id="save" parameterType="com.ryfchina.demo.repository.model.AccountCatagory">
+        INSERT INTO t_account_catagory
+        (
+            pkid,
+            name,
+            code,
+            belong,
+            channel_id,
+            create_user,
+            create_time,
+            update_time,
+            update_user,
+            remark,
+            upper,
+            lower
+        )
+        VALUES
+            (
+                #{pkid},
+                #{name},
+                #{code},
+                #{belong},
+                #{channelId},
+                #{createUser},
+                #{createTime},
+                #{updateTime},
+                #{updateUser},
+                #{remark},
+                #{upper},
+                #{lower}
+            )
+    </insert>
+
+    <update id="update" parameterType="com.ryfchina.demo.repository.model.AccountCatagory">
+        update t_account_catagory
+        <set>
+            <if test="name != null">`name` =
+                #{name},
+            </if>
+            <if test="code != null">`code` =
+                #{code},
+            </if>
+            <if test="belong != null">`belong` =
+                #{belong},
+            </if>
+            <if test="channelId != null">`channel_id` =
+                #{channelId},
+            </if>
+            <if test="createUser != null">`create_user` =
+                #{createUser},
+            </if>
+            <if test="createTime != null">`create_time` =
+                #{createTime},
+            </if>
+            <if test="updateTime != null">`update_time` =
+                #{updateTime},
+            </if>
+            <if test="updateUser != null">`update_user` =
+                #{updateUser},
+            </if>
+            <if test="remark != null">`remark` =
+                #{remark},
+            </if>
+            <if test="upper != null">`upper` =
+                #{upper},
+            </if>
+            <if test="lower != null">`lower` =
+                #{lower}
+            </if>
+        </set>
+        where pkid = #{pkid}
+    </update>
+
+    <delete id="delete">
+        DELETE FROM t_account_catagory
+        WHERE pkid = #{value}
+    </delete>
+
+    <delete id="deleteBatch">
+        delete from t_account_catagory where pkid in
+        <foreach item="pkid" collection="array" open="(" separator="," close=")">
+            #{pkid}
+        </foreach>
+    </delete>
+
+    <select id="selectOne" parameterType="java.util.Map"
+            resultType="com.ryfchina.demo.repository.model.AccountCatagory">
+        select
+        <include refid="allColumns"/>
+        from t_account_catagory
+        <where>
+            <if test="pkid != null and pkid.trim() != '' ">
+                and `pkid` = #{pkid}
+            </if>
+            <if test="name != null and name.trim() != '' ">
+                and `name` = #{name}
+            </if>
+            <if test="code != null and code.trim() != '' ">
+                and `code` = #{code}
+            </if>
+            <if test="belong != null and belong.trim() != '' ">
+                and `belong` = #{belong}
+            </if>
+            <if test="channelId != null and channelId.trim() != '' ">
+                and `channel_id` = #{channelId}
+            </if>
+            <if test="createUser != null and createUser.trim() != '' ">
+                and `create_user` = #{createUser}
+            </if>
+            <if test="createTime != null and createTime.trim() != '' ">
+                and `create_time` = #{createTime}
+            </if>
+            <if test="updateTime != null and updateTime.trim() != '' ">
+                and `update_time` = #{updateTime}
+            </if>
+            <if test="updateUser != null and updateUser.trim() != '' ">
+                and `update_user` = #{updateUser}
+            </if>
+            <if test="remark != null and remark.trim() != '' ">
+                and `remark` = #{remark}
+            </if>
+            <if test="upper != null">
+                and `upper` = #{upper}
+            </if>
+            <if test="lower != null">
+                and `lower` = #{lower}
+            </if>
+        </where>
+        order by pkid desc limit 1
+    </select>
+
+    <insert id="saveBatch" parameterType="java.util.List">
+        insert into t_account_catagory
+        (
+        `pkid`,
+        `name`,
+        `code`,
+        `belong`,
+        `channel_id`,
+        `create_user`,
+        `create_time`,
+        `update_time`,
+        `update_user`,
+        `remark`,
+        `upper`,
+        `lower`
+        )
+        values
+        <foreach collection="accountCatagoryList" item="item" index="index" separator=",">
+            (
+            #{pkid},
+            #{name},
+            #{code},
+            #{belong},
+            #{channelId},
+            #{createUser},
+            #{createTime},
+            #{updateTime},
+            #{updateUser},
+            #{remark},
+            #{upper},
+            #{lower}
+            )
+        </foreach>
+    </insert>
+
+</mapper>
