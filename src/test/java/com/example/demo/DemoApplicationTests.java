@@ -15,9 +15,11 @@ public class DemoApplicationTests {
     String A;
 
     class a {
-        String A = "adas";
+        String A = "adass";
     }
-public static final  AuthorSetting authorSetting=null ;
+
+    public static final AuthorSetting authorSetting = null;
+
     public static void main(String[] args) {
 //		long l = System.nanoTime();
 //		SortedMap<String, String> treeMap = new TreeMap<>();
@@ -87,7 +89,7 @@ public static final  AuthorSetting authorSetting=null ;
             i[j + 1] = num;
         }*/
 
-            //二元选择排序
+        //二元选择排序
 //        int i1, j1, n1, temp, min, max;
 //        n1 = i.length;
 //        for (i1 = 0; i1 < n1 / 2; i1++) {
@@ -116,7 +118,7 @@ public static final  AuthorSetting authorSetting=null ;
 //                i[max] = temp;
 //            }
 //        }
-            // 堆排序(在插值排序的基础上进一步优化)
+        // 堆排序(在插值排序的基础上进一步优化)
 //        int len = i.length;
 //        //循环建堆
 //        for (int i1 = 0; i1 < len - 1; i1++) {
@@ -125,10 +127,10 @@ public static final  AuthorSetting authorSetting=null ;
 //            //交换堆顶和最后一个元素
 //            swap(i, 0, len - 1 - i1);
 //        }
-            for (int i3 : i) {
-                System.out.println(i3);
-            }
-            //折半查询
+        for (int i3 : i) {
+            System.out.println(i3);
+        }
+        //折半查询
 //        int mid,low=0,heigh=i.length,index=0;
 //        while (low<=heigh){
 //            mid=(low+heigh)/2;
@@ -144,9 +146,9 @@ public static final  AuthorSetting authorSetting=null ;
 //        System.out.println(".."+index);
 //        Integer i2=0;
 //            int i3=i2;
-        }
+    }
 
-        //对data数组从0到lastIndex建大顶堆
+    //对data数组从0到lastIndex建大顶堆
 
     private static void buildMaxHeap(int[] data, int lastIndex) {
         //从lastIndex处节点（最后一个节点）的父节点开始
